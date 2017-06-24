@@ -1,0 +1,81 @@
+<head>
+	<title>Material Editor</title>
+  	
+</head>
+
+<body>
+	Material editor
+	<br>
+	
+	
+	{{> menu}}
+	{{> code_editor}}
+	{{> molecular_viewer}}
+	
+	<!--	
+  	{{> visual_editor}}
+  	-->
+  
+  	
+</body>
+
+
+
+
+<!-- MOLECULAR_VIEWER TEMPLATE -->
+<template name='molecular_viewer'>	
+	<div id="glmol_viewer" style="width: 300px; height: 200px; background-color: black;"></div> 
+</template>
+
+
+
+
+<!-- CODE_EDITOR TEMPLATE -->
+<template name='code_editor'>	
+	<div id='code_editor_viewer_outer' class='border'>
+		<textarea id='code_editor_viewer' autocomplete='off'>{{material_content}}</textarea>
+	</div>
+</template>
+
+
+
+
+<!--MENU TEMPLATE -->
+<template name='menu'>
+	{{> file_list}}
+	<div id='code_editor_header' class='editor_type'>code_editor</div>
+	<div id='visual_editor_header' class='editor_type'>visual_editor</div>
+</template>
+
+
+
+
+<!--FILE_LIST TEMPLATE -->
+<template name='file_list'>
+	<div class='file_list border'>
+		<input type='file' id='import_local_input' multiple hidden/>
+		
+		<small>Import files:</small>
+			<br>
+			&nbsp;<button class='import' id='import_local'>Local...</button>
+			<br>
+			&nbsp;<button class='import' id='import_remote'>Remote...</button>
+			<br>		
+	</div>
+</template>
+
+
+
+
+<!--VISUAL_EDITOR TEMPLATE -->
+<template name='visual_editor'>
+
+</template>
+
+
+
+
+<!--MATERIALS_LIST TEMPLATE -->
+<template name='materials_list'>
+
+</template>
