@@ -28,6 +28,9 @@ con = function(msg){console.log(msg)};
 
 if (Meteor.isClient){
 	
+	//----------------------
+	//	JQUERY HANDLERS
+	//----------------------
 	$(document).ready(function(){
 		Session.set('show_remote_files',false);
 	});
@@ -40,29 +43,24 @@ if (Meteor.isClient){
 	});
 	
 	$(document).on('click','*', function(e){
-		/* 
-			Hide import_remote_dialog template if it is open and the user clicks elsewhere;
+		/* 	Hide import_remote_dialog template if it is open and the user clicks elsewhere;
 		 	Achieved by removing event bubbling and adding class 'remote_dialog_element' to
 			all elements relevant to import_remote_dialog (including import_remote button
-			in import_menu template)
-		*/
+			in import_menu template)		*/
 		
 		e.stopPropagation();
 		if ( ! $(this).hasClass('remote_dialog_element') && Session.get('show_remote_files') != false){
 			Session.set('show_remote_files',false);
 		}
 	});
+	//----------------------END
 	
 	
 	//----------------------
 	//	TEMPLATE : CODE_EDITOR
 	//----------------------
 	Template.code_editor.events({
-		/*
-		'change #code_editor_viewer' : function(){
-			con('blah');
-		}
-		*/
+
 	});
 	
 	
@@ -133,7 +131,9 @@ if (Meteor.isClient){
 		'click .remote_file' : function(){
 			Session.set('current_material_id', this._id);
 			Session.set('show_remote_files',false);
-			Meteor.call('display_material', this._id);
+			
+			display_material( this._id );
+	
 		}
 	});
 	
@@ -167,6 +167,17 @@ if (Meteor.isClient){
 		}
 	});
 	
+	
+	//
+	//
+	//	DISPLAY MATERIAL : REMOVE CANVAS AND CREATE NEW GLMOL INSTANCE
+	//
+	//
+	display_material = function( mat_id ){
+		$('canvas').remove();
+		var glmol = new GLmol('glmol_viewer');
+	}
+	
 }
 
 
@@ -178,25 +189,14 @@ if (Meteor.isServer){
 
 
 Meteor.methods({
+	
+	
 	'add_material': function( material ){
-		/*
-			Add material to 'mats' collection, uploaded from user's local filesystem. 
-			Display material
-		*/
-		var mat_id = mats.insert( material );	//removed {} from around material
-		Meteor.call('display_material', mat_id);
+		/*	Add material to 'mats' collection, uploaded from user's local filesystem. */
 		
-	},
-	'display_material': function( mat_id ){
-		/*
-			Set new session and remove any current canvas elements 
-				(otherwise GLmol simply appends new canvas element to documet)
-			Create new glmol object
-		*/
-		Session.set('current_material_id', mat_id);
-		$('canvas').remove();
-		var glmol = new GLmol('glmol_viewer'); 
-		Session.set('glmol',glmol);
+		var mat_id = mats.insert( material );	//removed {} from around material		
+		return mat_id;
+		
 	}
 	
 });
