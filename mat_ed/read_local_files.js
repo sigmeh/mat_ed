@@ -1,7 +1,7 @@
 /*
 
 Read in file(s) from user's local machine via "input type='file'" 
-on html form located in file_list template of main.html. 
+on html form located in import_menu template of main.html. 
 Parse file contents and add new_material to 'mats' (Mongo materials
 Collection). 	
 
@@ -17,7 +17,7 @@ if (Meteor.isClient){
 		// 	and set session 'current_material' to new material
 		
 		var content_lines = material.file_content.split('\n');
-		switch ( material.ext ){
+		switch ( material.file_ext ){
 			case 'xyz':
 				material.atom_count = content_lines[0].trim();
 				material.name = content_lines[1].trim();
@@ -36,24 +36,24 @@ if (Meteor.isClient){
 					});
 				
 					material.atom_list.push({										// populate atom_list with atom identity & coordinates
-						atom	: line_array[0],
-						x		: line_array[1],
-						y		: line_array[2],
-						z		: line_array[3]
+						atom: line_array[0],
+						x	: line_array[1].substring(0,1) == '-' ? line_array[1] : '+'+line_array[1], 
+						y	: line_array[2].substring(0,1) == '-' ? line_array[2] : '+'+line_array[2], 
+						z	: line_array[3].substring(0,1) == '-' ? line_array[3] : '+'+line_array[3] 
 					});
 				}
 		
-			default:
-				
-				Meteor.call( 'add_material', material , function(err, id){
-					
-					if (!err){
+			default:				
+
+				Meteor.call( 'add_material', material, function(err, mat_id){				
+					if ( ! err ){
 						
-						Session.set('current_material_id', id);
+						Session.set('current_material_id', mat_id);
+						display_material(mat_id);
+	
 					}
 				});
 				
-				//Session.set( 'current_material', material );
 		}
 	}
 
@@ -92,7 +92,6 @@ if (Meteor.isClient){
 	
 
 	//Open filesystem browser from custom button
-
 
 	$(document).on('change', '#import_local_input', function(event){
 		read_local_files(event);
