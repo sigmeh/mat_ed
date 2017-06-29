@@ -9,6 +9,7 @@
 }
 .import{
 	width:60px;
+	cursor:pointer;
 }
 .border{
 	border-width:1px;
@@ -26,7 +27,7 @@
 }
 #import_remote_dialog_outer{
 	margin-top:3px;
-	padding:7px;
+	padding:10px;
 	position:fixed;
 	z-index:10;
 	background-color:rgb(247,255,255);
@@ -45,4 +46,50 @@ ul{
 	padding:5px;
 	padding-left:10px;
 	background-color:white;
+}
+.code_editor_rt_atom{
+	padding:1px;
+	padding-left:5px;
+	padding-right:5px;
+	font-weight:bold;
+	font-family:Helvetica;
+	display:inline-block;
+	border-radius:3px;
+	width:18px;
+	text-align:center;
+}
+.code_editor_rt_coord{
+	padding:1px;
+	padding-left:5px;
+	padding-right:5px;
+	font-family:monospace;
+	display:inline-block;
+	border-radius:1px;
+	background-color:rgb(245,250,255);
+	margin-left:5px;
+	vertical-align:top;
+	
+}
+#code_editor_rt_viewer_outer{
+	overflow:scroll;
+	height:300px;
+	width:400px;
+}
+.code_editor_rt_coordinates_box{
+	display:inline-block;
+}
+.coord_spacer_start{
+	margin-left:73px;
+}
+.coord_spacer{
+	margin-left:70px;
+}
+body{
+	
+}
+#ptable_template{
+	position:fixed;
+}
+.code_editor_rt_atom_clicked{
+	background-color:rgb(200,230,240);
 }
