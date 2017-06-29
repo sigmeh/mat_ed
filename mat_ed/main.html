@@ -4,14 +4,24 @@
 </head>
 
 <body>
+	<!-- fixed position relative to 0,0 -->
+	{{> periodic_table}}
+	<!--  -->
+	
 	Material editor
 	<br>
 	
+	<!--{{> test}}-->
 	
 	{{> menu}}
-	{{> code_editor}}
+	<!--{{> code_editor}}-->
+	{{> code_editor_rt}}
+	
 	{{> molecular_viewer}}
 	
+	
+	
+
 	<!--	
   	{{> visual_editor}}
   	-->
@@ -20,13 +30,62 @@
 </body>
 
 
-
-
-<!-- MOLECULAR_VIEWER TEMPLATE -->
-<template name='molecular_viewer'>	
-	<div id="glmol_viewer" style="width: 300px; height: 200px; background-color: black;"></div> 
+<template name='test'>
+	<button id='test_button'>test_button</button>
 </template>
 
+
+<!--MENU TEMPLATE -->
+<template name='menu'>
+	{{> import_menu}}
+	{{> import_remote_dialog}}
+	<div id='code_editor_header' class='editor_type'>code_editor</div>
+	<div id='visual_editor_header' class='editor_type'>visual_editor</div>
+</template>
+
+
+
+<!--IMPORT_MENU TEMPLATE -->
+<template name='import_menu'>
+	<div class='import_menu border'>
+		<input type='file' id='import_local_input' multiple hidden/>
+		
+		<small>Import files:</small>
+			<br>
+			&nbsp;<button class='import' id='import_local'>Local...</button>
+			<br>
+			&nbsp;<button class='import remote_dialog_element' id='import_remote'>Remote...</button>
+			<br>		
+	</div>
+</template>
+
+
+
+<!-- IMPORT_REMOTE_DIALOG TEMPLATE -->
+<template name='import_remote_dialog'>
+	
+	{{#if (session 'show_remote_files')}}
+		<div id='import_remote_dialog_outer' class='border remote_dialog_element' style='margin-left:{{ remote_fileslist_coords_x }}px; '>
+			<small class='remote_dialog_element'> Choose remote file to load or <button id='cancel_import_remote'>cancel</button></small>
+			<br><br>
+			<div id='import_remote_dialog_inner' class='border remote_dialog_element'>
+					{{#each remote_files_list}}
+						<div id='{{_id}}' class='remote_file remote_dialog_element'> {{file_name}}</div>
+					{{/each}}
+			</div>
+		</div>
+	{{/if}}	
+	
+</template>
+
+
+
+<!-- PERIODIC_TABLE TEMPLATE -->
+<template name='periodic_table' id='ptable_template'>
+	
+	<div id='periodic_table' class='ptable border hidden'></div>
+	
+</template>
 
 
 
@@ -39,29 +98,38 @@
 
 
 
-
-<!--MENU TEMPLATE -->
-<template name='menu'>
-	{{> file_list}}
-	<div id='code_editor_header' class='editor_type'>code_editor</div>
-	<div id='visual_editor_header' class='editor_type'>visual_editor</div>
+<!-- CODE_EDITOR_RT TEMPLATE -->
+<template name='code_editor_rt'>
+	{{#if (session 'current_material_id')}}
+	<div id='code_editor_rt_viewer_outer' class='border'>
+		
+		<!--<div id='code_editor_rt_metadata'></div>-->
+		<span class='coord_spacer_start'><b>x</b></span>
+		<span class='coord_spacer'><b>y</b></span>
+		<span class='coord_spacer'><b>z</b></span>
+		<br>
+		
+		{{#each atom_list}}
+			<div class='code_editor_rt_atom'> {{atom}} </div>
+			<div class='code_editor_rt_coordinates_box'>
+				<div class='code_editor_rt_coord'> {{x}} </div>
+				<div class='code_editor_rt_coord'> {{y}} </div>
+				<div class='code_editor_rt_coord'> {{z}} </div>
+			</div>
+			<br>
+		{{/each}}
+		
+		<!--<textarea id='code_editor_rt_viewer' autocomplete='off'>{{material_content}}</textarea>-->
+	</div>
+	{{/if}}
 </template>
 
 
 
 
-<!--FILE_LIST TEMPLATE -->
-<template name='file_list'>
-	<div class='file_list border'>
-		<input type='file' id='import_local_input' multiple hidden/>
-		
-		<small>Import files:</small>
-			<br>
-			&nbsp;<button class='import' id='import_local'>Local...</button>
-			<br>
-			&nbsp;<button class='import' id='import_remote'>Remote...</button>
-			<br>		
-	</div>
+<!-- MOLECULAR_VIEWER TEMPLATE -->
+<template name='molecular_viewer'>	
+	<div id="glmol_viewer" style="width: 300px; height: 200px; background-color: black;"></div> 
 </template>
 
 
